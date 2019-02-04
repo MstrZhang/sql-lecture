@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+    <title>das pokëdåx</title>
+</head>
+<body>
+    <header>
+        das pokëdåx
+    </header>
+
+    <div class="card">
+        <div id="wrapper">
+            <div id="left">
+                <div class="thumbnail">
+                    <img src="{{ pokemon_image }}" alt="a pokemon should be here">
+                </div>
+            </div>
+            <div id="right">
+                <label style="font-size: 24px">{{ pokemon_name }}</label>
+                <p>[ {{ pokemon_type }} ]</p>
+                <p>{{ pokemon_description }}</p>
+            </div>
+        </div>
+        <br>
+        <div class="btn-group">
+            <button class="btn" type="submit">
+                <i class="fas fa-trash"></i> delete
+            </button>
+        </div>
+        <div class="divider"></div>
+        <div class="card-header">search for a pokemon</div>
+        <form>
+            <br>
+            <label for="s-pokemon-name">
+                <i class="fas fa-pencil-alt"></i> name:
+            </label>
+            <input class="form-element" type="text" id="s-pokemon-name" placeholder="e.g. pikachu, agumon, beyblade, ..." />
+            
+            <label for="s-pokemon-description">
+                <i class="fas fa-comment"></i> description:
+            </label>
+            <input class="form-element" type="text" id="s-pokemon-type" placeholder="e.g. the cool pokemon, the ugly pokemon, ...">
+            
+            <label for="s-pokemon-type">
+                <i class="far fa-dot-circle"></i> type:
+            </label>
+            <input class="form-element" type="text" id="s-pokemon-type" placeholder="e.g. fire, water, grass, ...">
+        </form>
+        <br>
+        <div class="btn-group">
+            <button class="btn" type="submit">
+                <i class="fas fa-search"></i> search
+            </button>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">add a new pokemon</div>
+        <form method="POST" action="/add">
+            <br>
+            <label for="pokemon-name">
+                <i class="fas fa-pencil-alt"></i> name:
+            </label>
+            <input class="form-element" type="text" name="pokemon-name" placeholder="enter a name" required />
+            <label for="pokemon-description">
+                <i class="fas fa-comment"></i> description:
+            </label>
+            <textarea class="form-element" name="pokemon-description" placeholder="enter the pokemon's description" rows="5" required /></textarea>
+            <label for="pokemon-image">
+                <i class="fas fa-image"></i> image:
+            </label>
+            <input class="form-element" type="text" name="pokemon-image" placeholder="enter a url to the image of this pokemon" required />
+            <label for="pokemon-type">
+                <i class="far fa-dot-circle"></i> type:
+            </label>
+            <select class="form-element" name="pokemon-type">
+                {% for type in typelookup %}
+                    <option value="{{ type[0] }}">{{ type[1] }}</option>
+                {% endfor %}
+            </select>
+            <br>
+            <div class="btn-group">
+                <input class="btn" type="submit" value="add"></input>
+            </div>
+        </form>
+    </div>
+
+    <footer>
+        &copy; kevin zhang 2019
+    </footer>
+</body>
+</html>

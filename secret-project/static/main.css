@@ -1,0 +1,113 @@
+/* main stuff */
+* {
+    font-family: monospace
+}
+
+body {
+    background: white;
+    font-size: 16px;
+    color: black;
+    text-align: left;
+    max-width: 800px;
+    margin: auto;
+}
+
+header {
+    margin-top: 35px;
+    height: 65px;
+    color: black;
+    text-decoration: none;
+    font-weight: bold;
+    margin: 0;
+    width: 100%;
+    font-size: 36px;
+    text-align: center;
+}
+
+footer {
+    color: grey;
+    text-align: center; 
+    margin-bottom: 20px;
+}
+
+label {
+    font-weight: bold;
+}
+
+img {
+    max-width: 300px;
+    border-radius: 15px;
+}
+
+/* primary components */
+.divider {
+    margin: 25px 0 20px 0;
+    border-bottom: 2px dotted darkred;
+}
+
+.card {
+    border-radius: 5px;
+    padding: 25px;
+    margin-top: 10px;
+    margin-bottom: 1.5em;
+    background-color: crimson;
+    color: white;
+}
+
+.card-header {
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.form-element {
+    font-size: 16px;
+    border-radius: 5px;
+    border: 0;
+    padding: 7px 12px 7px 12px;
+    margin: 10px 0 10px 0;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.btn {
+    text-align: center;
+    font-size: 14px;
+    border-radius: 5px;
+    color: white;
+    border: none;
+    cursor: pointer;
+    background-color: #555;
+    padding: 10px 16px;
+}
+.btn:hover {
+    background-color: #666;
+}
+.btn-group {
+    text-align: center;
+}
+
+.thumbnail {
+    background-size: cover;
+    background-repeat: no-repeat;
+    overflow: hidden;
+    width: 300px;
+}
+
+/* gallery area */
+#wrapper {
+    display: flex;
+}
+
+#left {
+    flex: 0 0 45%;
+}
+#right {
+    border-radius: 5px;
+    background-color: papayawhip;
+    color: black;
+    padding: 15px;
+    flex: 1;
+}
+
+/* search components */
