@@ -13,7 +13,6 @@ CREATE TABLE pokemon (
         image_url VARCHAR NOT NULL,
         type_id INTEGER NOT NULL,
         PRIMARY KEY (id),
-        UNIQUE (name),
-        UNIQUE (description),
+        UNIQUE (id),
         FOREIGN KEY(type_id) REFERENCES typelookup (id)
 );

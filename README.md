@@ -45,6 +45,7 @@ much more than you can absorb in a two-hour workshop
 
 ## Credits
 
+- Sample database from the [Chinook database project](https://github.com/lerocha/chinook-database)
 - General app structure from the [Flaskr tutorial](http://flask.pocoo.org/docs/1.0/tutorial/)
 - Some HTML and CSS layouts and style snippets from [Thierry Sans](https://github.com/ThierrySans/CSCC09)
 - SQL information from CSCC43 notes by Marzieh Ahmadzadeh

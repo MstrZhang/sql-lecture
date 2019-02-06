@@ -39,6 +39,32 @@ img {
     border-radius: 15px;
 }
 
+table {
+    border-collapse: collapse;
+    margin-top: 20px;
+    width: 100%;
+}
+
+td, th {
+    text-align: center;
+    padding: 5px;
+}
+
+th {
+    background-color: firebrick;
+}
+
+td {
+    color: black;
+    background-color: papayawhip;
+}
+th:hover {
+    background-color: darkred;
+}
+td:hover {
+    background-color: moccasin;
+}
+
 /* primary components */
 .divider {
     margin: 25px 0 20px 0;

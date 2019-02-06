@@ -13,24 +13,37 @@
         das pokëdåx
     </header>
 
+    <!-- pokemon preview -->
     <div class="card">
-        <div id="wrapper">
-            <div id="left">
-                <div class="thumbnail">
-                    <img src="{{ pokemon_image }}" alt="a pokemon should be here">
-                </div>
-            </div>
-            <div id="right">
-                <label style="font-size: 24px">{{ pokemon_name }}</label>
-                <p>[ {{ pokemon_type }} ]</p>
-                <p>{{ pokemon_description }}</p>
-            </div>
-        </div>
+        <div class="card-header">list of pokemon</div>
+        <table>
+            <tr>
+                <th>id #</th>
+                <th>name</th>
+                <th>type</th>
+            </tr>
+            {% if pokemon %}
+                {% for element in pokemon %}
+                <tr>
+                    <td>{{ element[0] }}</td>
+                    <td>
+                        <a href="/pokemon?id={{ element[0] }}">{{ element[1] }}</a>
+                    </td>
+                    <td>[ {{ type_lookup[element[4]].upper() }} ]</td>
+                </tr>
+                {% endfor %}
+            {% else %}
+                <tr>
+                    <td colspan="3">
+                        you've seen absolutely no pokemon. you really suck at this...
+                    </td>
+                </tr>
+            {% endif %}
+        </table>
         <br>
         <div class="btn-group">
-            <button class="btn" type="submit">
-                <i class="fas fa-trash"></i> delete
-            </button>
+            <input class="btn" type="submit" value="<">
+            <input class="btn" type="submit" value=">">
         </div>
         <div class="divider"></div>
         <div class="card-header">search for a pokemon</div>
@@ -59,6 +72,7 @@
         </div>
     </div>
 
+    <!-- add a new pokemon -->
     <div class="card">
         <div class="card-header">add a new pokemon</div>
         <form method="POST" action="/add">
@@ -79,7 +93,7 @@
                 <i class="far fa-dot-circle"></i> type:
             </label>
             <select class="form-element" name="pokemon-type">
-                {% for type in typelookup %}
+                {% for type in pokemon_types %}
                     <option value="{{ type[0] }}">{{ type[1] }}</option>
                 {% endfor %}
             </select>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+    <title>{{ pokemon_name }}</title>
+</head>
+<body>
+    <header>
+        das pokëdåx
+    </header>
+
+    <div class="card">
+        <div id="wrapper">
+            <div id="left">
+                <div class="thumbnail">
+                    <img src="{{ pokemon_image }}" alt="a pokemon should be here">
+                </div>
+            </div>
+            <div id="right">
+                <label style="font-size: 24px">{{ pokemon_name }}</label>
+                <p>[ {{ pokemon_type }} ]</p>
+                <p>{{ pokemon_description }}</p>
+            </div>
+        </div>
+        <br>
+        <div class="btn-group">
+            <button class="btn">
+                <a href="/" style="color: white; text-decoration: none">
+                    <i class="fas fa-arrow-left"></i> back
+                </a>
+            </button>
+            <button class="btn"><i class="fa fa-trash"></i> delete</button>
+        </div>
+    </div>
+
+    <footer>
+        &copy; kevin zhang 2019
+    </footer>
+</body>
+</html>
