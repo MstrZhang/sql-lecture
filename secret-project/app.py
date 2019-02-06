@@ -1,6 +1,8 @@
 from flask import Flask, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import text
+
+import json
 import math
 
 app = Flask(__name__)
@@ -26,34 +28,12 @@ class Pokemon(db.Model):
     def __repr__(self):
         return f"Pokemon('{self.name}', '{self.description}', '{self.type_id}')"
 
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 # default rendering for index
 def index():
     page = 1 if not request.args.get('page') else int(request.args.get('page'))
     limit = 5
-
-    sql = text("""
-        SELECT COUNT(*) FROM pokemon
-    """)
-    result = db.engine.execute(sql)
-    total = result.fetchall()[0][0]
-    result.close()
-
-    total_pages = math.ceil(total / limit)
-
-    sql = text("""
-        SELECT * FROM pokemon
-        ORDER BY id ASC
-        LIMIT :limit
-        OFFSET :offset
-    """).bindparams(
-        limit=limit,
-        offset=(page - 1) * limit
-    )
-
-    result = db.engine.execute(sql)
-    pokemon = result.fetchall()
-    result.close()
+    default = "you've seen absolutely no pokemon. you really suck at this..."
 
     sql = text("""
         SELECT * FROM typelookup
@@ -63,6 +43,46 @@ def index():
     type_lookup = dict(pokemon_types)
     result.close()
 
+    if request.method == 'GET':
+        sql = text("""
+            SELECT * FROM pokemon
+            ORDER BY id DESC
+            LIMIT :limit
+            OFFSET :offset
+        """).bindparams(
+            limit=limit,
+            offset=(page - 1) * limit
+        )
+
+        result = db.engine.execute(sql)
+        pokemon = result.fetchall()
+        result.close()
+    else:
+        description = request.form['s-pokemon-description'] if len(request.form['s-pokemon-description']) > 0 else None
+        sql = text("""
+            SELECT *
+            FROM pokemon
+            WHERE name = COALESCE(:name, name)
+                AND description LIKE '%{description}%'
+                AND type_id = COALESCE(:type, type_id)
+            LIMIT :limit
+            OFFSET :offset
+        """.format(
+            description=description
+        )).bindparams(
+            name=request.form['s-pokemon-name'],
+            type=request.form['s-pokemon-type'] if 's-pokemon-type' in request.form else None,
+            limit=limit,
+            offset=(page - 1) * limit
+        )
+        result = db.engine.execute(sql)
+        pokemon = result.fetchall()
+        result.close()
+        default = 'your search turned up no results...'
+
+    total = len(pokemon)
+    total_pages = math.ceil(total / limit)
+
     if len(pokemon) > 0:
         return render_template(
             'index.html', 
@@ -71,7 +91,8 @@ def index():
             type_lookup=type_lookup,
             page=page,
             total=total,
-            total_pages=total_pages
+            total_pages=total_pages,
+            default=default
         )
     else:
         return render_template(
@@ -81,7 +102,8 @@ def index():
             type_lookup=type_lookup,
             page=page,
             total=total,
-            total_pages=total_pages
+            total_pages=total_pages,
+            default=default
         )
 
 @app.route('/add', methods=['POST'])

@@ -36,7 +36,7 @@
             {% else %}
                 <tr>
                     <td colspan="3">
-                        you've seen absolutely no pokemon. you really suck at this...
+                        {{ default }}
                     </td>
                 </tr>
             {% endif %}
@@ -55,29 +55,33 @@
         </div>
         <div class="divider"></div>
         <div class="card-header">search for a pokemon</div>
-        <form>
+        <form method="POST" action="/">
             <br>
             <label for="s-pokemon-name">
                 <i class="fas fa-pencil-alt"></i> name:
             </label>
-            <input class="form-element" type="text" id="s-pokemon-name" placeholder="e.g. pikachu, agumon, beyblade, ..." />
-            
+            <input class="form-element" type="text" name="s-pokemon-name" placeholder="e.g. pikachu, agumon, beyblade, ..." />
             <label for="s-pokemon-description">
                 <i class="fas fa-comment"></i> description:
             </label>
-            <input class="form-element" type="text" id="s-pokemon-type" placeholder="e.g. the cool pokemon, the ugly pokemon, ...">
-            
+            <input class="form-element" type="text" name="s-pokemon-description" placeholder="e.g. the cool pokemon, the ugly pokemon, ...">
             <label for="s-pokemon-type">
                 <i class="far fa-dot-circle"></i> type:
             </label>
-            <input class="form-element" type="text" id="s-pokemon-type" placeholder="e.g. fire, water, grass, ...">
+            <select class="form-element" name="s-pokemon-type">
+                {% for type in pokemon_types %}
+                    <option hidden disabled selected value>-- select a type --</option>
+                    <option value="{{ type[0] }}">{{ type[1] }}</option>
+                {% endfor %}
+            </select>
+            <br>
+            <div class="btn-group">
+                <button class="btn">
+                    <a href="/" style="color: white; text-decoration: none">clear</a>
+                </button>
+                <input class="btn" type="submit" value="search"></input>
+            </div>
         </form>
-        <br>
-        <div class="btn-group">
-            <button class="btn" type="submit">
-                <i class="fas fa-search"></i> search
-            </button>
-        </div>
     </div>
 
     <!-- add a new pokemon -->
@@ -102,6 +106,7 @@
             </label>
             <select class="form-element" name="pokemon-type">
                 {% for type in pokemon_types %}
+                    <option hidden disabled selected value>-- select a type --</option>
                     <option value="{{ type[0] }}">{{ type[1] }}</option>
                 {% endfor %}
             </select>
