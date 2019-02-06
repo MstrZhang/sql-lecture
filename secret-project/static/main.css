@@ -1,11 +1,11 @@
 /* main stuff */
 * {
-    font-family: monospace
+    font-family: 'Share Tech Mono', monospace
 }
 
 body {
     background: white;
-    font-size: 16px;
+    font-size: 18px;
     color: black;
     text-align: left;
     max-width: 800px;
@@ -13,12 +13,11 @@ body {
 }
 
 header {
-    margin-top: 35px;
     height: 65px;
     color: black;
     text-decoration: none;
     font-weight: bold;
-    margin: 0;
+    margin-top: 20px;
     width: 100%;
     font-size: 36px;
     text-align: center;

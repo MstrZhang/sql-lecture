@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import text
+import math
 
 app = Flask(__name__)
 
@@ -26,11 +27,30 @@ class Pokemon(db.Model):
         return f"Pokemon('{self.name}', '{self.description}', '{self.type_id}')"
 
 @app.route('/')
+# default rendering for index
 def index():
+    page = 1 if not request.args.get('page') else int(request.args.get('page'))
+    limit = 5
+
+    sql = text("""
+        SELECT COUNT(*) FROM pokemon
+    """)
+    result = db.engine.execute(sql)
+    total = result.fetchall()[0][0]
+    result.close()
+
+    total_pages = math.ceil(total / limit)
+
     sql = text("""
         SELECT * FROM pokemon
         ORDER BY id ASC
-    """)
+        LIMIT :limit
+        OFFSET :offset
+    """).bindparams(
+        limit=limit,
+        offset=(page - 1) * limit
+    )
+
     result = db.engine.execute(sql)
     pokemon = result.fetchall()
     result.close()
@@ -44,11 +64,28 @@ def index():
     result.close()
 
     if len(pokemon) > 0:
-        return render_template('index.html', pokemon=pokemon, pokemon_types=pokemon_types, type_lookup=type_lookup)
+        return render_template(
+            'index.html', 
+            pokemon=pokemon, 
+            pokemon_types=pokemon_types, 
+            type_lookup=type_lookup,
+            page=page,
+            total=total,
+            total_pages=total_pages
+        )
     else:
-        return render_template('index.html', pokemon=None, pokemon_types=pokemon_types, type_lookup=type_lookup)
+        return render_template(
+            'index.html', 
+            pokemon=None, 
+            pokemon_types=pokemon_types, 
+            type_lookup=type_lookup,
+            page=page,
+            total=total,
+            total_pages=total_pages
+        )
 
 @app.route('/add', methods=['POST'])
+# add a new pokemon to the pokedex
 def add_pokemon():
     sql = text("""
         INSERT INTO pokemon (name, description, image_url, type_id)
@@ -65,6 +102,7 @@ def add_pokemon():
     return redirect(url_for('index'))
 
 @app.route('/pokemon')
+# get a pokemon from the pokedex by id
 def get_pokemon():
     pokemon_id = request.args.get('id')
     sql = text("""
@@ -79,8 +117,6 @@ def get_pokemon():
     result = db.engine.execute(sql)
     pokemon = result.fetchall()[0]
     result.close()
-
-    print(pokemon)
 
     return render_template('pokemon.html',
         pokemon_name=pokemon[0],
