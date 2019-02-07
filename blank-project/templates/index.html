@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Share+Tech+Mono" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+    <title>das pokëdåx</title>
+</head>
+<body>
+    <header>
+        das pokëdåx
+    </header>
+
+    <!-- pokemon preview -->
+    <div class="card">
+        <div class="card-header">list of pokemon</div>
+        <table>
+            <tr>
+                <th>id #</th>
+                <th>name</th>
+                <th>type</th>
+            </tr>
+            {% if pokemon %}
+                {% for element in pokemon %}
+                <tr>
+                    <td>{{ element[0] }}</td>
+                    <td>
+                        <a href="/pokemon?id={{ element[0] }}">{{ element[1] }}</a>
+                    </td>
+                    <td>[ {{ type_lookup[element[4]].upper() }} ]</td>
+                </tr>
+                {% endfor %}
+            {% else %}
+                <tr>
+                    <td colspan="3">
+                        {{ default }}
+                    </td>
+                </tr>
+            {% endif %}
+        </table>
+        <p>TOTAL: {{ total }} pokemon</p>
+        <div class="btn-group">
+            <button class="btn">
+                <a href="/?page={{ page - 1 if page > 1 else page }}"
+                   style="color: white; text-decoration: none"><</a>
+            </button>
+            <span>page {{ page }} of {{ total_pages }}</span>
+            <button class="btn">
+                <a href="/?page={{ page + 1 if page < total_pages else page }}" 
+                   style="color: white; text-decoration: none">></a>
+            </button>
+        </div>
+        <div class="divider"></div>
+        <div class="card-header">search for a pokemon</div>
+        <form method="POST" action="/">
+            <br>
+            <label for="s-pokemon-name">
+                <i class="fas fa-pencil-alt"></i> name:
+            </label>
+            <input class="form-element" type="text" name="s-pokemon-name" placeholder="e.g. pikachu, agumon, beyblade, ..." />
+            <label for="s-pokemon-description">
+                <i class="fas fa-comment"></i> description:
+            </label>
+            <input class="form-element" type="text" name="s-pokemon-description" placeholder="e.g. the cool pokemon, the ugly pokemon, ...">
+            <label for="s-pokemon-type">
+                <i class="far fa-dot-circle"></i> type:
+            </label>
+            <select class="form-element" name="s-pokemon-type">
+                {% for type in pokemon_types %}
+                    <option hidden disabled selected value>-- select a type --</option>
+                    <option value="{{ type[0] }}">{{ type[1] }}</option>
+                {% endfor %}
+            </select>
+            <br>
+            <div class="btn-group">
+                <button class="btn">
+                    <a href="/" style="color: white; text-decoration: none">clear</a>
+                </button>
+                <input class="btn" type="submit" value="search"></input>
+            </div>
+        </form>
+    </div>
+
+    <!-- add a new pokemon -->
+    <div class="card">
+        <div class="card-header">add a new pokemon</div>
+        <form method="POST" action="/add">
+            <br>
+            <label for="pokemon-name">
+                <i class="fas fa-pencil-alt"></i> name:
+            </label>
+            <input class="form-element" type="text" name="pokemon-name" placeholder="enter a name" required />
+            <label for="pokemon-description">
+                <i class="fas fa-comment"></i> description:
+            </label>
+            <textarea class="form-element" name="pokemon-description" placeholder="enter the pokemon's description" rows="5" required /></textarea>
+            <label for="pokemon-image">
+                <i class="fas fa-image"></i> image:
+            </label>
+            <input class="form-element" type="text" name="pokemon-image" placeholder="enter a url to the image of this pokemon" required />
+            <label for="pokemon-type">
+                <i class="far fa-dot-circle"></i> type:
+            </label>
+            <select class="form-element" name="pokemon-type">
+                {% for type in pokemon_types %}
+                    <option hidden disabled selected value>-- select a type --</option>
+                    <option value="{{ type[0] }}">{{ type[1] }}</option>
+                {% endfor %}
+            </select>
+            <br>
+            <div class="btn-group">
+                <input class="btn" type="submit" value="add"></input>
+            </div>
+        </form>
+    </div>
+
+    <footer>
+        &copy; kevin zhang 2019
+    </footer>
+</body>
+</html>
