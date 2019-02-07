@@ -43,6 +43,13 @@ def index():
     type_lookup = dict(pokemon_types)
     result.close()
 
+    sql = text("""
+        SELECT COUNT(*) FROM pokemon
+    """)
+    result = db.engine.execute(sql)
+    total = result.fetchall()[0][0]
+    result.close()
+
     if request.method == 'GET':
         sql = text("""
             SELECT * FROM pokemon
@@ -80,7 +87,6 @@ def index():
         result.close()
         default = 'your search turned up no results...'
 
-    total = len(pokemon)
     total_pages = math.ceil(total / limit)
 
     if len(pokemon) > 0:
