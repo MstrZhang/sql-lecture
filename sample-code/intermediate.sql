@@ -95,16 +95,14 @@ ORDER BY
 ----------------------------------------------------------
 
 -- get the customers whose sales representatives are in Canada
-SELECT
-    customerid,
-    firstname,
-    lastname
+SELECT customerid,
+       firstname,
+       lastname
 FROM customers
 WHERE supportrepid IN (
     SELECT employeeid
     FROM employees
-    WHERE country = 'Canada'
-);
+    WHERE country = 'Canada');
 
 -- using an aggregate function
 -- remember than you can't pass in a value to an aggregate function
@@ -142,7 +140,7 @@ WHERE 10000000 > (
 -- subquery in the SELECT clause
 SELECT
     albumid,
-    title
+    title,
     (
         SELECT COUNT(trackid)
         FROM tracks

@@ -37,7 +37,7 @@ ORDER BY
 
 -- get the cities that the customers are from
 -- some customers can come from the same city, duplicates are pointless
-SELECT DISTINCT
+SELECT
     city
 FROM
     customers

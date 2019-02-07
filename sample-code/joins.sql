@@ -52,10 +52,19 @@ WHERE
 -- LEFT JOIN: (albums, artists)
 ----------------------------------------------------------
 
+SELECT
+    artists.ArtistId,
+    albumId
+FROM
+    artists
+LEFT JOIN albums ON albums.artistid = artists.artistid
+ORDER BY
+    albumid;
+
 -- find the artists who do not have any albums
 -- (an artist that has no albums will have a NULL albumid column)
 SELECT
-    artists.artistid
+    artists.artistid,
     albumid
 FROM
     artists
