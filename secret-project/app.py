@@ -65,25 +65,23 @@ def index():
         pokemon = result.fetchall()
         result.close()
     else:
-        description = request.form['s-pokemon-description'] if len(request.form['s-pokemon-description']) > 0 else None
         sql = text("""
             SELECT *
             FROM pokemon
-            WHERE name = COALESCE(:name, name)
-                AND description LIKE '%{description}%'
+            WHERE name LIKE '%{name}%'
                 AND type_id = COALESCE(:type, type_id)
             LIMIT :limit
             OFFSET :offset
         """.format(
-            description=description
+            name=request.form['s-pokemon-name']
         )).bindparams(
-            name=request.form['s-pokemon-name'],
             type=request.form['s-pokemon-type'] if 's-pokemon-type' in request.form else None,
             limit=limit,
             offset=(page - 1) * limit
         )
         result = db.engine.execute(sql)
         pokemon = result.fetchall()
+        total = len(pokemon)
         result.close()
         default = 'your search turned up no results...'
 

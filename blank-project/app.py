@@ -51,6 +51,7 @@ def index():
     # result = db.engine.execute(sql)
     # total = result.fetchall()[0][0]
     # result.close()
+    total = 0
 
     # if request.method == 'GET':
     #     sql = text("""
